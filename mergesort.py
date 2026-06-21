@@ -1,27 +1,49 @@
-def merge_sort(arr):
-    if len(arr) <= 1:
-        return arr
+def merge_sort(numbers):
+    """
+    Sort a list of numbers using the merge sort algorithm.
 
-    mid = len(arr) // 2
-    left = merge_sort(arr[:mid])
-    right = merge_sort(arr[mid:])
+    The function returns a new sorted list and does not change
+    the original input list.
+    """
+    if len(numbers) <= 1:
+        return numbers
 
-    result = []
-    i = 0
-    j = 0
+    middle_index = len(numbers) // 2
+    left_half = merge_sort(numbers[:middle_index])
+    right_half = merge_sort(numbers[middle_index:])
 
-    while i < len(left) and j < len(right):
-        if left[i] < right[j]:
-            result.append(left[i])
-            i = i + 1
+    return merge(left_half, right_half)
+
+
+def merge(left_half, right_half):
+    """
+    Merge two already sorted lists into one sorted list.
+    """
+    sorted_numbers = []
+    left_index = 0
+    right_index = 0
+
+    while left_index < len(left_half) and right_index < len(right_half):
+        if left_half[left_index] <= right_half[right_index]:
+            sorted_numbers.append(left_half[left_index])
+            left_index += 1
         else:
-            result.append(right[j])
-            j = j + 1
+            sorted_numbers.append(right_half[right_index])
+            right_index += 1
 
-    result.extend(left[i:])
-    result.extend(right[j:])
-    return result
+    sorted_numbers.extend(left_half[left_index:])
+    sorted_numbers.extend(right_half[right_index:])
+
+    return sorted_numbers
 
 
-print(merge_sort([5, 3, 8, 1, 2]))
+def main():
+    example_numbers = [5, 3, 8, 1, 2]
+    sorted_numbers = merge_sort(example_numbers)
 
+    print("Original list:", example_numbers)
+    print("Sorted list:", sorted_numbers)
+
+
+if __name__ == "__main__":
+    main()
